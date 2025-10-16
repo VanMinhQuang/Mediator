@@ -1,5 +1,6 @@
 package quang.app.mediator.features.onboarding.view
 
+import AppButton
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,11 +31,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import quang.app.mediator.R
-import quang.app.mediator.core.component.AppButton
+
+import quang.app.mediator.core.styles.AppColor
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(navController: NavController) {
 
 
     Box(
@@ -101,12 +105,15 @@ fun OnboardingScreen() {
 
             // Sign Up button
             AppButton(
-                onTap = { print("sign up tapped") },
+                onTap = {
+                    navController.navigate("register")
+
+                    print("sign up tapped") },
                 text = "SIGN UP",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
-                color = Color(0xFF8E97FD),
+                gradient = AppColor.PrimaryGradient,
                 textColor = Color.White
             )
 
@@ -128,7 +135,7 @@ fun OnboardingScreen() {
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onTap = { offset ->
-                                    print("Tapped at: $offset")
+                                    navController.navigate("register")
                                 },
 
                             )
@@ -182,9 +189,12 @@ fun WaveBackground(
     }
 }
 
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OnboardingScreenPreview() {
-    OnboardingScreen()
+    val navController = rememberNavController()
+    OnboardingScreen(navController)
 }
+
+
+
