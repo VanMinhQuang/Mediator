@@ -1,9 +1,13 @@
 package quang.app.mediator
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import quang.app.mediator.features.Routes
+import quang.app.mediator.features.login.view.LoginScreen
 import quang.app.mediator.features.onboarding.view.OnboardingScreen
 import quang.app.mediator.features.register.view.RegisterScreen
 
@@ -13,15 +17,34 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = "onboarding"
+        startDestination = Routes.ONBOARDING,
+        enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(300)
+            )
+        },
+        exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                animationSpec = tween(300)
+            )
+        },
+        popEnterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(300)
+            )
+        },
+        popExitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                animationSpec = tween(300)
+            )
+        }
     ) {
-        composable("onboarding") {
-             OnboardingScreen(navController) // Uncomment and implement navigation if needed
-        }
-
-        composable("register"){
-             RegisterScreen(navController) // Uncomment and implement navigation if needed
-        }
-
+        composable(Routes.ONBOARDING) { OnboardingScreen(navController) }
+        composable(Routes.LOGIN) { LoginScreen(navController) }
+        composable(Routes.REGISTER) { RegisterScreen(navController) }
     }
 }

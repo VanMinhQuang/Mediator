@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
@@ -41,7 +40,7 @@ fun TextFormFieldComponent(
     color: Color = AppColor.TextBackGround,
     style: TextStyle = AppTextStyle.regular14,
     leading: @Composable (() -> Unit)? = null,
-    validator: Boolean = false
+    trailing: @Composable (() -> Unit)? = null,
 ) {
     var isObscured by remember { mutableStateOf(true) }
 
@@ -101,13 +100,8 @@ fun TextFormFieldComponent(
                 }
             )
 
-            if (validator) {
-                Icon(
-                    imageVector = Icons.Filled.Check,
-                    contentDescription = "Valid",
-                    tint = Color.Green
-                )
-            }
+            trailing?.invoke()
+
         }
     }
 }

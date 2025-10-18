@@ -1,10 +1,12 @@
-package quang.app.mediator.features.register.view
+package quang.app.mediator.features.login.view
 
 import AppButton
 import TextFormFieldComponent
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,17 +47,15 @@ import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.component.LoadingDialog
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.features.register.viewModels.RegisterEvent
-import quang.app.mediator.features.register.viewModels.RegisterUiEvent
-import quang.app.mediator.features.register.viewModels.RegisterViewModel
-
+import quang.app.mediator.features.Routes
+import quang.app.mediator.features.login.viewModels.LoginEvent
+import quang.app.mediator.features.login.viewModels.LoginUIEvent
+import quang.app.mediator.features.login.viewModels.LoginViewModel
 
 @Composable
-fun RegisterScreen(navController: NavController,
-
-                   viewModel: RegisterViewModel = hiltViewModel()
+fun LoginScreen(navController: NavController,
+               viewModel: LoginViewModel = hiltViewModel()
 ) {
-
     var showLoading by  remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -64,13 +63,13 @@ fun RegisterScreen(navController: NavController,
     LaunchedEffect(Unit)  {
         viewModel.event.collect { event ->
             when(event) {
-                is RegisterUiEvent.ShowLoading -> showLoading = true
-                is RegisterUiEvent.HideLoading -> showLoading = false
-                is RegisterUiEvent.ShowError ->
+                is LoginUIEvent.ShowLoading -> showLoading = true
+                is LoginUIEvent.HideLoading -> showLoading = false
+                is LoginUIEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is RegisterUiEvent.ShowSuccess ->
+                is LoginUIEvent.ShowSuccess ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is RegisterUiEvent.NavigateToHome -> navController.popBackStack()
+
 
             }
         }
@@ -81,7 +80,7 @@ fun RegisterScreen(navController: NavController,
         modifier = Modifier.fillMaxSize().background(color = AppColor.White)
     ){
 
-        RegisterView(viewModel,navController)
+        LoginView(viewModel,navController)
 
         if(showLoading){
             LoadingDialog()
@@ -91,8 +90,18 @@ fun RegisterScreen(navController: NavController,
     }
 }
 
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview
 @Composable
-fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
+fun LoginScreenPreview() {
+    LoginScreen(navController = rememberNavController(),
+        viewModel = LoginViewModel()
+    )
+}
+
+
+@Composable
+fun LoginView(viewModel: LoginViewModel, navController: NavController) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -102,7 +111,7 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             contentScale = ContentScale.Crop,
 
-        )
+            )
 
         Column(
             modifier = Modifier
@@ -122,7 +131,7 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "Create your account",
+                text = "Welcome Back!",
                 style = AppTextStyle.semiBold18.copy(fontSize = 28.sp)
             )
 
@@ -193,28 +202,13 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            TextFormFieldComponent(
-                text = state.userName,
-                placeholder = "User Name",
-                onTextChange = { viewModel.onEvent(RegisterEvent.NameChanged(it)) },
-                trailing = {
-                    if (state.userName.isNotEmpty()) {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = "Valid",
-                            tint = Color.Green,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+
 
             // Email input field
             TextFormFieldComponent(
                 text = state.email,
                 placeholder = "Email",
-                onTextChange = { viewModel.onEvent(RegisterEvent.EmailChanged(it)) },
+                onTextChange = { viewModel.onEvent(LoginEvent.EnterEmail(it)) },
                 trailing = {
                     if (state.email.isNotEmpty()) {
                         Icon(
@@ -231,57 +225,59 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
             TextFormFieldComponent(
                 text = state.password,
                 placeholder = "Password",
-                onTextChange = { viewModel.onEvent(RegisterEvent.PasswordChanged(it)) },
+                onTextChange = { viewModel.onEvent(LoginEvent.EnterPassword(it)) },
                 isPassword = true,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("I have read the ", style = AppTextStyle.regular14)
-                    Text(
-                        text = "Privacy Policy",
-                        style = AppTextStyle.semiBold14.copy(color = AppColor.PrimaryBlue)
-                    )
-                }
 
-                Checkbox(
-                    checked = state.isReadPolicy,
-                    onCheckedChange ={
-                        viewModel.onEvent(RegisterEvent.TogglePrivacyPolicy)
-                    },
-                    colors = CheckboxDefaults.colors(
-                        checkedColor = AppColor.PrimaryBlue,
-                        checkmarkColor = AppColor.White
-                    )
-                )
-            }
 
-            Spacer(modifier = Modifier.height(16.dp))
+
 
             AppButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
                 onTap = {
-
+                    viewModel.onEvent(LoginEvent.SubmitLogin)
                 },
                 textStyle = AppTextStyle.semiBold14,
-                text = "GET STARTED",
+                text = "LOG IN",
                 gradient = AppColor.PrimaryGradient
             )
+
+            Text(
+                text = "Forgot your password?",
+                style = withColor(AppTextStyle.medium16.copy(fontSize = 14.sp), color = AppColor.TextColor),
+                modifier = Modifier.padding(top = 16.dp).clickable(
+                    onClick = {
+
+                    }
+                )
+            )
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "DON'T HAVE AN ACCOUNT YET? ",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    text = "SIGN UP",
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF8E97FD),
+                    modifier = Modifier.clickable {   navController.navigate(Routes.REGISTER)}
+                )
+            }
         }
     }
-}
-@Preview
-@Composable
-fun RegisterScreenPreview() {
-    val navController = rememberNavController()
-    RegisterScreen(navController)
-}
 
+}
