@@ -8,20 +8,28 @@ import androidx.compose.ui.graphics.Color
 object AppColor {
 
     val Primary = Color(0xFF8E97FD)
-    val Secondary = Color(0xFFFF8FA2)
+    val Secondary = Color(0xFFAEB4FC)
     val Accent = Color(0xFFFFC107)
     val Background = Color(0xFFF5F6FA)
-    val TextPrimary = Color(0xFF1C1C1E)
 
+    val BluePurple = Color(0xFF808AFF)
     val PrimaryBlue = Color(0xFF7583CA)
     val Cream = Color(0xFFFAF8F5)
     val White = Color(0xFFFFFFFF)
     val Gray = Color(0xFFF2F3F7)
-
+    val TextPrimary = Color(0xFF1C1C1E)
     val TextBackGround = Color(0XFFF2F3F7)
     val TextColor = Color(0xFF3F414E)
     val TextHint = Color(0XFFA1A4B2)
-
+    val TextCream = Color(0XFFFFECCC)
+    val CarrotOrange = Color(0xFFFA6E5A)
+    val LightOrange = Color(0xFFFEB18F)
+    val BrightYellow = Color(0xFFFFCF86)
+    val DarkGreen = Color(0xFF6CB28E)
+    val DarkGray = Color(0xFF4E5567)
+    val BrightBlack = Color(0xFF3F414E)
+    val DarkBlue = Color(0xFF424495)
+    val DarkPink = Color(0xFFD9A5B5)
     val PrimaryGradient = Brush.linearGradient(
         colors = listOf(
             Color(0xFF9178FF), // ~0.57, 0.47, 1.0

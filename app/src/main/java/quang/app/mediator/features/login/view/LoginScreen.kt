@@ -67,8 +67,10 @@ fun LoginScreen(navController: NavController,
                 is LoginUIEvent.HideLoading -> showLoading = false
                 is LoginUIEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is LoginUIEvent.ShowSuccess ->
+                is LoginUIEvent.ShowSuccess -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    navController.navigate(Routes.WELCOME)
+                }
 
 
             }
@@ -209,16 +211,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                 text = state.email,
                 placeholder = "Email",
                 onTextChange = { viewModel.onEvent(LoginEvent.EnterEmail(it)) },
-                trailing = {
-                    if (state.email.isNotEmpty()) {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = "Valid",
-                            tint = Color.Green,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                    }
-                }
+
             )
             Spacer(modifier = Modifier.height(16.dp))
 

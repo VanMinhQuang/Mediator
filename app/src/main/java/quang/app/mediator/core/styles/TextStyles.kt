@@ -32,6 +32,7 @@ object AppTextStyle {
     val semiBold28 = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.SemiBold, fontFamily = HelveticaNeue)
     val medium28 = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Medium, fontFamily = HelveticaNeue)
     val regular28 = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Normal, fontFamily = HelveticaNeue)
+    val light28 = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Light, fontFamily = HelveticaNeue)
 
     // MARK: - 24
     val bold24 = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold, fontFamily = HelveticaNeue)
@@ -50,12 +51,14 @@ object AppTextStyle {
     val semiBold20 = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold, fontFamily = HelveticaNeue)
     val medium20 = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Medium, fontFamily = HelveticaNeue)
     val regular20 = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal, fontFamily = HelveticaNeue)
+    val light20 = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Light, fontFamily = HelveticaNeue)
 
     // MARK: - 18
     val bold18 = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = HelveticaNeue)
     val semiBold18 = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.SemiBold, fontFamily = HelveticaNeue)
     val medium18 = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium, fontFamily = HelveticaNeue)
     val regular18 = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Normal, fontFamily = HelveticaNeue)
+    val light18 = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Light, fontFamily = HelveticaNeue)
 
     // MARK: - 16
     val bold16 = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold, fontFamily = HelveticaNeue)
@@ -65,6 +68,8 @@ object AppTextStyle {
     val light16 = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Light, fontFamily = HelveticaNeue)
 
     // MARK: - 14
+    val medium14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Medium, fontFamily = HelveticaNeue)
+
     val bold14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = HelveticaNeue)
     val semiBold14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.SemiBold, fontFamily = HelveticaNeue)
     val regular14 = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Normal, fontFamily = HelveticaNeue)
