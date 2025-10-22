@@ -12,14 +12,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -53,20 +55,22 @@ import quang.app.mediator.features.login.viewModels.LoginUIEvent
 import quang.app.mediator.features.login.viewModels.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController,
-               viewModel: LoginViewModel = hiltViewModel()
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var showLoading by  remember { mutableStateOf(false) }
+    var showLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
 
-    LaunchedEffect(Unit)  {
+    LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            when(event) {
+            when (event) {
                 is LoginUIEvent.ShowLoading -> showLoading = true
                 is LoginUIEvent.HideLoading -> showLoading = false
                 is LoginUIEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+
                 is LoginUIEvent.ShowSuccess -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                     navController.navigate(Routes.WELCOME)
@@ -79,12 +83,15 @@ fun LoginScreen(navController: NavController,
 
 
     Box(
-        modifier = Modifier.fillMaxSize().background(color = AppColor.White)
-    ){
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppColor.White)
+            .padding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom).asPaddingValues())
+    ) {
 
-        LoginView(viewModel,navController)
+        LoginView(viewModel, navController)
 
-        if(showLoading){
+        if (showLoading) {
             LoadingDialog()
         }
 
@@ -96,7 +103,8 @@ fun LoginScreen(navController: NavController,
 @Preview
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen(navController = rememberNavController(),
+    LoginScreen(
+        navController = rememberNavController(),
         viewModel = LoginViewModel()
     )
 }
@@ -126,8 +134,11 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.Start)
-            ){
-                CircularBackButton(onBack = { navController.popBackStack() }, borderColor = AppColor.Gray)
+            ) {
+                CircularBackButton(
+                    onBack = { navController.popBackStack() },
+                    borderColor = AppColor.Gray
+                )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -161,7 +172,10 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                                 .size(18.dp)
                                 .align(Alignment.CenterStart)
                         )
-                        Text("CONTINUE WITH FACEBOOK", style = AppTextStyle.semiBold14.copy(color = Color.White))
+                        Text(
+                            "CONTINUE WITH FACEBOOK",
+                            style = AppTextStyle.semiBold14.copy(color = Color.White)
+                        )
                     }
                 }
             )
@@ -189,7 +203,10 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                                 .size(18.dp)
                                 .align(Alignment.CenterStart)
                         )
-                        Text("CONTINUE WITH GOOGLE", style = AppTextStyle.regular14.copy(color = AppColor.TextColor))
+                        Text(
+                            "CONTINUE WITH GOOGLE",
+                            style = AppTextStyle.regular14.copy(color = AppColor.TextColor)
+                        )
                     }
                 },
                 color = Color.White,
@@ -200,10 +217,12 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("OR LOG IN WITH EMAIL", style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint))
+            Text(
+                "OR LOG IN WITH EMAIL",
+                style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint)
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
-
 
 
             // Email input field
@@ -212,7 +231,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                 placeholder = "Email",
                 onTextChange = { viewModel.onEvent(LoginEvent.EnterEmail(it)) },
 
-            )
+                )
             Spacer(modifier = Modifier.height(16.dp))
 
             TextFormFieldComponent(
@@ -242,12 +261,17 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
 
             Text(
                 text = "Forgot your password?",
-                style = withColor(AppTextStyle.medium16.copy(fontSize = 14.sp), color = AppColor.TextColor),
-                modifier = Modifier.padding(top = 16.dp).clickable(
-                    onClick = {
+                style = withColor(
+                    AppTextStyle.medium16.copy(fontSize = 14.sp),
+                    color = AppColor.TextColor
+                ),
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .clickable(
+                        onClick = {
 
-                    }
-                )
+                        }
+                    )
             )
 
 
@@ -267,7 +291,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF8E97FD),
-                    modifier = Modifier.clickable {   navController.navigate(Routes.REGISTER)}
+                    modifier = Modifier.clickable { navController.navigate(Routes.REGISTER) }
                 )
             }
         }

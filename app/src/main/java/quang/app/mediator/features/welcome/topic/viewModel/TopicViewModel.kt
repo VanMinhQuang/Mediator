@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import quang.app.mediator.data.model.topics
 
 
-class TopicViewModel: ViewModel(){
+class TopicViewModel : ViewModel() {
     private val _state = MutableStateFlow(TopicState())
 
     val state = _state.asStateFlow()
@@ -15,8 +15,8 @@ class TopicViewModel: ViewModel(){
         _state.value = _state.value.copy(topics = topics)
     }
 
-    fun onEvent(event: TopicEvent){
-        when(event){
+    fun onEvent(event: TopicEvent) {
+        when (event) {
             is TopicEvent.TopicSelected -> {
                 val updatedTopics = state.value.topics.map { topic ->
                     when (topic.topicId) {
@@ -24,7 +24,9 @@ class TopicViewModel: ViewModel(){
                         else -> if (topic.isPicked) topic.copy(isPicked = false) else topic
                     }
                 }
-                _state.value = state.value.copy(topics = updatedTopics)
+                val selectedTopicId = updatedTopics.find { it.isPicked }?.topicId
+                _state.value =
+                    state.value.copy(topics = updatedTopics, selectedTopicId = selectedTopicId)
             }
         }
     }

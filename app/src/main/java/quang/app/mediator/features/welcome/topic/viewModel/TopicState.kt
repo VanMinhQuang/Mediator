@@ -4,5 +4,5 @@ import quang.app.mediator.data.model.Topic
 
 data class TopicState(
     val topics: List<Topic> = emptyList(),
-    val selectedTopic: Topic? = null
+    val selectedTopicId: String? = null
 )

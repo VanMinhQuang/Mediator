@@ -1,5 +1,6 @@
 package quang.app.mediator.features.welcome.topic.view
 
+import AppButton
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,6 +30,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -53,40 +56,82 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
     Box(
         modifier = Modifier
             .fillMaxSize()
-
-            .background(color = AppColor.White)
+            .background(AppColor.White)
     ) {
+        // Background image
         Image(
             painter = painterResource(id = R.drawable.topic_bg),
             contentDescription = "Background",
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+            colorFilter = ColorFilter.tint(AppColor.Cream)
         )
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.Start
+                .padding(horizontal = 24.dp)
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(70.dp))
+
             Text("What Brings you", style = AppTextStyle.semiBold28)
             Text("to Silent Moon?", style = AppTextStyle.light28)
-            Spacer(modifier = Modifier.height(15.dp))
-            Text("choose a topic to focus on:", style = AppTextStyle.light20.copy(color = AppColor.TextHint))
 
-            TopicGrid(state.topics,
-                onClick =  { topic ->
-                    viewModel.onEvent(TopicEvent.TopicSelected(topic.topicId))
-                }
+            Spacer(modifier = Modifier.height(15.dp))
+            Text(
+                "choose a topic to focus on:",
+                style = AppTextStyle.light20.copy(color = AppColor.TextHint)
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Make grid take up remaining space
+            Box(modifier = Modifier.weight(1f)) {
+                TopicGrid(
+                    items = state.topics,
+                    onClick = { topic ->
+                        viewModel.onEvent(TopicEvent.TopicSelected(topic.topicId))
+                    }
+                )
+            }
+
+            Spacer(
+                modifier = Modifier.height(
+                    if (state.selectedTopicId != null) 16.dp else 70.dp
+                )
+            )
+        }
+
+        // Sticky bottom button (overlays content)
+        if (state.selectedTopicId != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(horizontal = 24.dp, vertical = 24.dp)
+                    .shadow(20.dp, RoundedCornerShape(30.dp))
+            ) {
+                AppButton(
+                    text = "Next",
+                    textStyle = AppTextStyle.semiBold18,
+                    textColor = AppColor.White,
+                    gradient = AppColor.PrimaryGradient,
+                    onTap = {
+                        // Navigation or logic here
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(55.dp)
+                )
+            }
         }
     }
 }
 
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopicGrid(items: List<Topic>,  onClick: (Topic) -> Unit) {
-
+fun TopicGrid(items: List<Topic>, onClick: (Topic) -> Unit) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = Modifier
@@ -101,9 +146,7 @@ fun TopicGrid(items: List<Topic>,  onClick: (Topic) -> Unit) {
             Card(
                 shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
-                    .clickable{
-                        onClick(topic)
-                    }
+                    .clickable { onClick(topic) }
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 elevation = CardDefaults.cardElevation(6.dp),
