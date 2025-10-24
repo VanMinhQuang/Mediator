@@ -1,6 +1,5 @@
 package quang.app.mediator.features.welcome.topic.view
 
-import AppButton
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -8,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -43,8 +42,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
+import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.data.model.Topic
+import quang.app.mediator.features.Routes
 import quang.app.mediator.features.welcome.topic.viewModel.TopicEvent
 import quang.app.mediator.features.welcome.topic.viewModel.TopicViewModel
 
@@ -74,8 +75,27 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
         ) {
             Spacer(modifier = Modifier.height(70.dp))
 
-            Text("What Brings you", style = AppTextStyle.semiBold28)
-            Text("to Silent Moon?", style = AppTextStyle.light28)
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column {
+                    Text("What Brings you", style = AppTextStyle.semiBold28)
+                    Text("to Silent Moon?", style = AppTextStyle.light28)
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                if (state.selectedTopicId != null)
+                    CircularBackButton(
+                        onBack = { navController.navigate(Routes.REMINDER) },
+                        backgroundColor = AppColor.White,
+                        iconColor = AppColor.TextColor,
+                        borderColor = AppColor.TextHint,
+                        isForward = true
+                    )
+            }
+
 
             Spacer(modifier = Modifier.height(15.dp))
             Text(
@@ -95,36 +115,9 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
                 )
             }
 
-            Spacer(
-                modifier = Modifier.height(
-                    if (state.selectedTopicId != null) 16.dp else 70.dp
-                )
-            )
+        
         }
 
-        // Sticky bottom button (overlays content)
-        if (state.selectedTopicId != null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(horizontal = 24.dp, vertical = 24.dp)
-                    .shadow(20.dp, RoundedCornerShape(30.dp))
-            ) {
-                AppButton(
-                    text = "Next",
-                    textStyle = AppTextStyle.semiBold18,
-                    textColor = AppColor.White,
-                    gradient = AppColor.PrimaryGradient,
-                    onTap = {
-                        // Navigation or logic here
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(55.dp)
-                )
-            }
-        }
     }
 }
 
@@ -204,7 +197,6 @@ fun TopicGrid(items: List<Topic>, onClick: (Topic) -> Unit) {
         }
     }
 }
-
 
 
 @Preview

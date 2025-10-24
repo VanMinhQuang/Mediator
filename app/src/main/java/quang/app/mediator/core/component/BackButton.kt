@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
@@ -15,7 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CircularBackButton(onBack: () -> Unit, backgroundColor: Color = Color.White, iconColor: Color = Color.Black, borderColor: Color = Color.Black) {
+fun CircularBackButton(
+    onBack: () -> Unit,
+    backgroundColor: Color = Color.White,
+    iconColor: Color = Color.Black,
+    borderColor: Color = Color.Black,
+    isForward: Boolean = false
+) {
     IconButton(
         onClick = onBack,
         modifier = Modifier
@@ -25,7 +32,7 @@ fun CircularBackButton(onBack: () -> Unit, backgroundColor: Color = Color.White,
             .background(backgroundColor)
     ) {
         Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            imageVector = if (isForward) Icons.AutoMirrored.Filled.ArrowForward else Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "Go Back",
             tint = iconColor
         )

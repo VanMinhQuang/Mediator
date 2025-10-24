@@ -27,6 +27,7 @@ object AppColor {
     val BrightYellow = Color(0xFFFFCF86)
     val DarkGreen = Color(0xFF6CB28E)
     val DarkGray = Color(0xFF4E5567)
+    val LightGray = Color(0xFFF5F5F9)
     val BrightBlack = Color(0xFF3F414E)
     val DarkBlue = Color(0xFF424495)
     val DarkPink = Color(0xFFD9A5B5)

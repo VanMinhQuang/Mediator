@@ -10,6 +10,7 @@ import quang.app.mediator.features.Routes
 import quang.app.mediator.features.login.view.LoginScreen
 import quang.app.mediator.features.onboarding.view.OnboardingScreen
 import quang.app.mediator.features.register.view.RegisterScreen
+import quang.app.mediator.features.welcome.reminder.view.ReminderScreen
 import quang.app.mediator.features.welcome.topic.view.TopicScreen
 import quang.app.mediator.features.welcome.welcome.view.WelcomeScreen
 
@@ -50,5 +51,7 @@ fun AppNavigation() {
         composable(Routes.REGISTER) { RegisterScreen(navController) }
         composable(Routes.WELCOME) { WelcomeScreen(navController) }
         composable(Routes.TOPIC) { TopicScreen(navController) }
+        composable(Routes.REMINDER) { ReminderScreen(navController) }
+
     }
 }

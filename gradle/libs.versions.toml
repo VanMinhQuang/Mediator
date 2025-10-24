@@ -4,6 +4,7 @@ agp = "8.11.0-alpha10"
 coilCompose = "3.3.0"
 coilSvg = "2.7.0"
 converterGson = "3.0.0"
+datepicker = "2.0.7"
 hiltAndroid = "2.57"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.2.10"
@@ -22,6 +23,7 @@ retrofit = "3.0.0"
 roomRuntime = "2.7.2"
 composeHotReload = "1.0.0-beta05"
 runtime = "1.9.0"
+wheelpickercompose = "1.1.11"
 [libraries]
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +41,7 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCo
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+datepicker = { module = "com.github.ozcanalasalvar.picker:datepicker", version.ref = "datepicker" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -56,6 +59,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+wheelpickercompose = { module = "com.github.commandiron:WheelPickerCompose", version.ref = "wheelpickercompose" }
+wheelview = { module = "com.github.ozcanalasalvar.picker:wheelview", version.ref = "datepicker" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

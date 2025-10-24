@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "quang.app.mediator"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -93,5 +93,8 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.runtime.rxjava2)
+
+
+    implementation(libs.wheelpickercompose)
 
 }
