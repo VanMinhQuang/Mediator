@@ -7,11 +7,34 @@ import quang.app.mediator.core.styles.AppColor
 data class Topic(
     val topicId: String,
     val title: String,
+    val desc: String? = null,
     val color: Color,
     val secondColor: Color? = null,
     val textColor: Color,
     val image: Int,
     val isPicked: Boolean
+)
+
+
+val homeTopics = listOf(
+    Topic(
+        topicId = "1",
+        title = "Basics",
+        desc = "COURSE",
+        color = AppColor.Primary,
+        textColor = AppColor.TextCream,
+        image = R.drawable.chill_planet,
+        isPicked = false
+    ),
+    Topic(
+        topicId = "2",
+        title = "Relaxation",
+        desc = "MUSIC",
+        color = AppColor.DarkYellow,
+        textColor = AppColor.TextColor,
+        image = R.drawable.music_person,
+        isPicked = false
+    ),
 )
 
 val topics = listOf(

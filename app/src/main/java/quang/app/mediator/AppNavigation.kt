@@ -1,5 +1,6 @@
 package quang.app.mediator
 
+import MainScreen
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
@@ -52,6 +53,7 @@ fun AppNavigation() {
         composable(Routes.WELCOME) { WelcomeScreen(navController) }
         composable(Routes.TOPIC) { TopicScreen(navController) }
         composable(Routes.REMINDER) { ReminderScreen(navController) }
+        composable(Routes.HOME) {MainScreen()}
 
     }
 }

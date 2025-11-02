@@ -118,7 +118,7 @@ fun ReminderScreen(navController: NavController, viewModel: ReminderViewModel = 
                     .height(60.dp)
                     .fillMaxSize(),
                 onTap = {
-                    navController.navigate(Routes.TOPIC)
+                    navController.navigate(Routes.HOME)
                 }
             )
 
@@ -133,7 +133,7 @@ fun ReminderScreen(navController: NavController, viewModel: ReminderViewModel = 
                     .height(60.dp)
                     .fillMaxSize(),
                 onTap = {
-                    navController.navigate(Routes.TOPIC)
+                    navController.navigate(Routes.HOME)
                 }
             )
 
