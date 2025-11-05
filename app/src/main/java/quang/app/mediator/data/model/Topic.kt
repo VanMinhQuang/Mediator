@@ -37,6 +37,33 @@ val homeTopics = listOf(
     ),
 )
 
+val recommendedTopics = listOf(
+    Topic(
+        topicId = "1",
+        title = "Focus",
+        color = AppColor.LightGreen,
+        textColor = AppColor.TextCream,
+        image = R.drawable.green_meditaing,
+        isPicked = false
+    ),
+    Topic(
+        topicId = "2",
+        title = "Stress Relief",
+        color = AppColor.DarkPurple,
+        textColor = AppColor.TextCream,
+        image = R.drawable.happiness_mediating,
+        isPicked = false
+    ),
+    Topic(
+        topicId = "3",
+        title = "Working",
+        color = AppColor.CarrotOrange,
+        textColor = AppColor.TextCream,
+        image = R.drawable.working,
+        isPicked = false
+    ),
+)
+
 val topics = listOf(
     Topic(
         topicId = "1",
