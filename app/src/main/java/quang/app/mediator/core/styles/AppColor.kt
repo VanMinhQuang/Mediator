@@ -44,4 +44,13 @@ object AppColor {
             Color(0xFF6CA9FF)  // ~0.43, 0.66, 1.0
         )
     )
+
+    val CardGradient = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFF8E97FD),
+            Color(0xFFAEB4FC)
+        )
+    )
+
+    val LightPeach = Color(0xFFF1DDCF)
 }

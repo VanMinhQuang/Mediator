@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularPlayButton
+import quang.app.mediator.core.component.PlayMeditationCard
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.data.model.Topic
 import quang.app.mediator.data.model.homeTopics
@@ -127,7 +128,16 @@ fun HomeView() {
                 )
             }
 
-            DailyThoughtsCard()
+            PlayMeditationCard(
+                title = "Daily Thoughts",
+                subTitle = "MEDIATION • 3-10 MIN",
+                backgroundColor = AppColor.DarkPurple,
+                backgroundImg = R.drawable.though_bg,
+                onPlayClick = {
+
+                }
+            )
+
 
             Spacer(modifier = Modifier.height(12.dp))
 

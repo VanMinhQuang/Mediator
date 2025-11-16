@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.features.main.home.view.HomeView
+import quang.app.mediator.features.main.meditate.view.MeditateView
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -106,8 +107,8 @@ fun MainScreen() {
             ) {
                 when (page) {
                     0 -> HomeView()
-                    1 -> Text("🔍 Search Screen", style = MaterialTheme.typography.headlineMedium)
-                    2 -> Text("👤 Profile Screen", style = MaterialTheme.typography.headlineMedium)
+                    1 -> Text("🔍 Sleep", style = MaterialTheme.typography.headlineMedium)
+                    2 -> MeditateView()
                 }
             }
         }
