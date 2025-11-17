@@ -53,7 +53,7 @@ fun AppNavigation() {
         composable(Routes.WELCOME) { WelcomeScreen(navController) }
         composable(Routes.TOPIC) { TopicScreen(navController) }
         composable(Routes.REMINDER) { ReminderScreen(navController) }
-        composable(Routes.HOME) {MainScreen()}
+        composable(Routes.HOME) {MainScreen(navController)}
 
     }
 }

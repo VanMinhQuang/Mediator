@@ -26,15 +26,19 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.features.main.home.view.HomeView
 import quang.app.mediator.features.main.meditate.view.MeditateView
+import quang.app.mediator.features.main.music.view.MusicView
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(navController: NavController) {
     val pages = listOf("Home", "Sleep", "Meditate", "Music", "Profile")
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -109,6 +113,7 @@ fun MainScreen() {
                     0 -> HomeView()
                     1 -> Text("🔍 Sleep", style = MaterialTheme.typography.headlineMedium)
                     2 -> MeditateView()
+                    3 -> MusicView(navController = navController)
                 }
             }
         }
@@ -118,5 +123,6 @@ fun MainScreen() {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    val navController = rememberNavController()
+    MainScreen(navController)
 }

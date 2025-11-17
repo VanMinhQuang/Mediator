@@ -168,11 +168,10 @@ fun MeditationGrid(items: List<MeditationModel>, onClick: (MeditationModel) -> U
     ) {
         items(items.size) { index ->
             val topic = items[index]
-            // Detect column (0 or 1)
+
             val column = index % 2
 
-            // Column 0: short-long-short-long
-            // Column 1: long-short-long-short
+
             val height =
                 if (column == 0) {
                     if ((index / 2) % 2 == 0) shortHeight else longHeight
