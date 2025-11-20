@@ -8,4 +8,6 @@ object Routes {
     const val TOPIC = "topic"
     const val REMINDER = "reminder"
     const val HOME = "home"
+
+    const val PLAY_MUSIC = "play_music"
 }

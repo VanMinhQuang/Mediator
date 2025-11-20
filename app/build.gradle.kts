@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.coil.kt.coil.gif)
+
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

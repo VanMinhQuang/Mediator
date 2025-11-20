@@ -32,6 +32,7 @@ import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.data.model.Music
+import quang.app.mediator.features.Routes
 
 @Composable
 fun MusicView(navController: NavController) {
@@ -56,7 +57,7 @@ fun MusicView(navController: NavController) {
             MusicGrid(
                 Music.dummyList(),
                 onClick = {
-
+                    navController.navigate(Routes.PLAY_MUSIC)
                 }
             )
         }
