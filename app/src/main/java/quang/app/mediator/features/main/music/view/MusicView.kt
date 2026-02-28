@@ -31,7 +31,7 @@ import coil3.compose.AsyncImage
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.data.model.Music
+import quang.app.mediator.domain.model.Music
 import quang.app.mediator.features.Routes
 
 @Composable

@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.core.component.TimePicker
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.data.model.DayItem
+import quang.app.mediator.domain.model.DayItem
 import quang.app.mediator.features.Routes
 import quang.app.mediator.features.welcome.reminder.viewModels.ReminderEvent
 import quang.app.mediator.features.welcome.reminder.viewModels.ReminderViewModel

@@ -2,14 +2,21 @@ package quang.app.mediator.features.login.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import quang.app.mediator.core.network.results.APIResult
+import quang.app.mediator.domain.repository.AuthRepository
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
 
     val state = _state.asStateFlow()
@@ -50,12 +57,20 @@ class LoginViewModel : ViewModel() {
             _event.send(LoginUIEvent.ShowLoading)
 
 
-            delay(2000) // Simulate network request
-
+            val result = repository.authenticate(currentState.email, currentState.password)
 
             _event.send(LoginUIEvent.HideLoading)
 
-            _event.send(LoginUIEvent.ShowSuccess("Registration successful!"))
+            when(result){
+                is APIResult.Success ->
+                    _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome ${result.data.lastName}"))
+                is APIResult.Error ->
+                    _event.send(LoginUIEvent.ShowError("Login failed: ${result.error}"))
+
+            }
+
+
+
         }
     }
 }

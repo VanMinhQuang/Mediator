@@ -30,22 +30,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularPlayButton
 import quang.app.mediator.core.component.PlayMeditationCard
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.data.model.Topic
-import quang.app.mediator.data.model.homeTopics
-import quang.app.mediator.data.model.recommendedTopics
+import quang.app.mediator.domain.model.Topic
+import quang.app.mediator.domain.model.homeTopics
+import quang.app.mediator.domain.model.recommendedTopics
+import quang.app.mediator.features.Routes
 
 
 @Composable
-fun HomeView() {
+fun HomeView(navController: NavController) {
     val scrollState = rememberScrollState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -102,7 +104,9 @@ fun HomeView() {
                 MediatingHomeCard(
                     modifier = Modifier
                         .weight(1f)
-                        .height(200.dp),
+                        .height(200.dp).clickable(onClick = {
+                            navController.navigate(Routes.COURSE)
+                        }),
                     topic = homeTopics[0],
                     boxColor = AppColor.WhiteBox,
                     boxTextColor = AppColor.TextColor,
@@ -151,6 +155,7 @@ fun HomeView() {
 
 
             RecommendedCardList()
+
 
 
         }
@@ -362,11 +367,4 @@ fun MediatingHomeCard(
             }
         }
     }
-}
-
-
-@Preview
-@Composable
-fun HomeViewPreview() {
-    HomeView()
 }

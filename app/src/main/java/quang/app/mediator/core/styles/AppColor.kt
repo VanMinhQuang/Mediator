@@ -12,6 +12,8 @@ object AppColor {
     val Accent = Color(0xFFFFC107)
     val Background = Color(0xFFF5F6FA)
 
+    val Gray600 = Color(0xFFB6B8BF)
+
     val BluePurple = Color(0xFF808AFF)
     val PrimaryBlue = Color(0xFF7583CA)
     val Cream = Color(0xFFFAF8F5)

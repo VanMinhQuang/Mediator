@@ -3,7 +3,7 @@ package quang.app.mediator.features.welcome.topic.viewModel
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import quang.app.mediator.data.model.topics
+import quang.app.mediator.domain.model.topics
 
 
 class TopicViewModel : ViewModel() {

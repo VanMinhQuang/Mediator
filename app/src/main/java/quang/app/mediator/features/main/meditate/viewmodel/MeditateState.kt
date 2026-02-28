@@ -1,6 +1,6 @@
 package quang.app.mediator.features.main.meditate.viewmodel
 
-import quang.app.mediator.data.model.MeditationModel
+import quang.app.mediator.domain.model.MeditationModel
 import quang.app.mediator.features.main.meditate.view.MeditateMenuItem
 
 data class MeditateState(

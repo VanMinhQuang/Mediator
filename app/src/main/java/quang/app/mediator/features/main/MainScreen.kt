@@ -110,7 +110,7 @@ fun MainScreen(navController: NavController) {
                 contentAlignment = Alignment.Center
             ) {
                 when (page) {
-                    0 -> HomeView()
+                    0 -> HomeView(navController)
                     1 -> Text("🔍 Sleep", style = MaterialTheme.typography.headlineMedium)
                     2 -> MeditateView()
                     3 -> MusicView(navController = navController)

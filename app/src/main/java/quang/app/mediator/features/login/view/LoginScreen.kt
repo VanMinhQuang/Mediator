@@ -2,7 +2,6 @@ package quang.app.mediator.features.login.view
 
 import AppButton
 import TextFormFieldComponent
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,13 +35,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import com.yourapp.ui.theme.AppTextStyle.withColor
 import quang.app.mediator.R
@@ -51,6 +48,7 @@ import quang.app.mediator.core.component.LoadingDialog
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.features.Routes
 import quang.app.mediator.features.login.viewModels.LoginEvent
+import quang.app.mediator.features.login.viewModels.LoginState
 import quang.app.mediator.features.login.viewModels.LoginUIEvent
 import quang.app.mediator.features.login.viewModels.LoginViewModel
 
@@ -61,7 +59,7 @@ fun LoginScreen(
 ) {
     var showLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
-
+    val state = viewModel.state.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
@@ -89,7 +87,11 @@ fun LoginScreen(
             .padding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom).asPaddingValues())
     ) {
 
-        LoginView(viewModel, navController)
+        LoginView(
+            state = state,
+            onEvent =  { viewModel.onEvent(it)},
+            navController = navController
+        )
 
         if (showLoading) {
             LoadingDialog()
@@ -99,20 +101,11 @@ fun LoginScreen(
     }
 }
 
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(
-        navController = rememberNavController(),
-        viewModel = LoginViewModel()
-    )
-}
 
 
 @Composable
-fun LoginView(viewModel: LoginViewModel, navController: NavController) {
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+fun LoginView(state: LoginState, onEvent: (LoginEvent) -> Unit , navController: NavController) {
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
@@ -229,7 +222,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
             TextFormFieldComponent(
                 text = state.email,
                 placeholder = "Email",
-                onTextChange = { viewModel.onEvent(LoginEvent.EnterEmail(it)) },
+                onTextChange = { onEvent(LoginEvent.EnterEmail(it)) },
 
                 )
             Spacer(modifier = Modifier.height(16.dp))
@@ -237,7 +230,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
             TextFormFieldComponent(
                 text = state.password,
                 placeholder = "Password",
-                onTextChange = { viewModel.onEvent(LoginEvent.EnterPassword(it)) },
+                onTextChange = { onEvent(LoginEvent.EnterPassword(it)) },
                 isPassword = true,
             )
 
@@ -252,7 +245,7 @@ fun LoginView(viewModel: LoginViewModel, navController: NavController) {
                     .fillMaxWidth()
                     .height(55.dp),
                 onTap = {
-                    viewModel.onEvent(LoginEvent.SubmitLogin)
+                    onEvent(LoginEvent.SubmitLogin)
                 },
                 textStyle = AppTextStyle.semiBold14,
                 text = "LOG IN",

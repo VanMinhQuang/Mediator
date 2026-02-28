@@ -1,38 +1,31 @@
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxSize
+import android.content.Context
+import android.widget.ImageView
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import coil3.ImageLoader
-import coil3.compose.rememberAsyncImagePainter
-import coil3.gif.GifDecoder
-
+import androidx.compose.ui.viewinterop.AndroidView
+import pl.droidsonroids.gif.GifDrawable
+import pl.droidsonroids.gif.GifImageView
 
 @Composable
-fun GifPlayer(assetName: String, modifier: Modifier, scale: ContentScale) {
-    val context = LocalContext.current
+fun GifPlayer(
 
-    val imageLoader = remember {
-        ImageLoader.Builder(context)
-            .components {
-                // GifDecoder.Factory implements Decoder.Factory, so this works
-                add(GifDecoder.Factory())
+    assetName: String,
+    modifier: Modifier = Modifier,
+    isPlaying: Boolean
+) {
+    AndroidView(
+        factory = { ctx ->
+            GifImageView(ctx).apply {
+                val inputStream = ctx.assets.open(assetName)
+                setImageDrawable(GifDrawable(inputStream))
+                scaleType = ImageView.ScaleType.CENTER_CROP
             }
-            .build()
-    }
-
-    val painter = rememberAsyncImagePainter(
-        model = "file:///android_asset/$assetName",
-        imageLoader = imageLoader
-    )
-
-    Image(
-        painter = painter,
-        contentDescription = null,
-        contentScale = scale,
-        modifier = modifier.fillMaxSize()
+        },
+        modifier = modifier,
+        update = { view ->
+            val drawable = view.drawable as? GifDrawable
+            if (isPlaying) drawable?.start() else drawable?.stop()
+        }
     )
 }

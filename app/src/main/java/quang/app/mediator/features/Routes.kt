@@ -10,4 +10,5 @@ object Routes {
     const val HOME = "home"
 
     const val PLAY_MUSIC = "play_music"
+    const val COURSE = "course"
 }

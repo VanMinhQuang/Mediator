@@ -1,4 +1,4 @@
-package quang.app.mediator.data.model
+package quang.app.mediator.domain.model
 
 import androidx.compose.ui.graphics.Color
 import quang.app.mediator.R

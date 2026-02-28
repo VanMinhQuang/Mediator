@@ -14,13 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import quang.app.mediator.core.styles.AppColor
 
 @Composable
 fun CircularBackButton(
     onBack: () -> Unit,
     backgroundColor: Color = Color.White,
     iconColor: Color = Color.Black,
-    borderColor: Color = Color.Black,
+    borderColor: Color = AppColor.Gray700,
     isForward: Boolean = false
 ) {
     IconButton(

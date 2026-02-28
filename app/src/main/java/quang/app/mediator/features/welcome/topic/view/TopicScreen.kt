@@ -44,7 +44,7 @@ import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.data.model.Topic
+import quang.app.mediator.domain.model.Topic
 import quang.app.mediator.features.Routes
 import quang.app.mediator.features.welcome.topic.viewModel.TopicEvent
 import quang.app.mediator.features.welcome.topic.viewModel.TopicViewModel

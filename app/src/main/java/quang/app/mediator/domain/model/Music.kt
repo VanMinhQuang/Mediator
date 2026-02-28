@@ -1,4 +1,4 @@
-package quang.app.mediator.data.model
+package quang.app.mediator.domain.model
 
 data class Music(
     val id: Int,

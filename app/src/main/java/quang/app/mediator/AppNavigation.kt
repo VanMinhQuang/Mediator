@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import quang.app.mediator.features.Routes
+import quang.app.mediator.features.course.view.CourseScreen
 import quang.app.mediator.features.login.view.LoginScreen
 import quang.app.mediator.features.onboarding.view.OnboardingScreen
 import quang.app.mediator.features.play_music.view.PlayMusicScreen
@@ -48,7 +49,9 @@ fun AppNavigation() {
             )
         }
     ) {
-        composable(Routes.ONBOARDING) { OnboardingScreen(navController) }
+        composable(
+            route = Routes.ONBOARDING
+        ) { OnboardingScreen(navController) }
         composable(Routes.LOGIN) { LoginScreen(navController) }
         composable(Routes.REGISTER) { RegisterScreen(navController) }
         composable(Routes.WELCOME) { WelcomeScreen(navController) }
@@ -56,6 +59,7 @@ fun AppNavigation() {
         composable(Routes.REMINDER) { ReminderScreen(navController) }
         composable(Routes.HOME) {MainScreen(navController)}
         composable(Routes.PLAY_MUSIC) { PlayMusicScreen(navController) }
+        composable(Routes.COURSE) { CourseScreen(navController) }
 
     }
 }

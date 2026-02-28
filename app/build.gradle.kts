@@ -52,7 +52,7 @@ android {
 
 dependencies {
     implementation(libs.coil.kt.coil.gif)
-
+    implementation(libs.android.gif.drawable)
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -78,7 +78,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     //noinspection UseTomlInstead
-    implementation("com.squareup.okhttp3:logging-interceptor:5.2.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.3.2")
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
@@ -98,5 +98,10 @@ dependencies {
 
 
     implementation(libs.wheelpickercompose)
+
+
+    // Arrow
+    implementation(libs.arrow.core)
+    implementation(libs.arrow.fx.coroutines)
 
 }

@@ -3,7 +3,7 @@ package quang.app.mediator.features.welcome.reminder.viewModels
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import quang.app.mediator.data.model.daysOfWeek
+import quang.app.mediator.domain.model.daysOfWeek
 
 class ReminderViewModel: ViewModel() {
     private val _state = MutableStateFlow(ReminderState())
