@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="quang.app.mediator" />
+                  <option name="mobileSdkAppId" value="1:440045522731:android:56a91ddb09066f542d3f6e" />
+                  <option name="projectId" value="mediation-e028d" />
+                  <option name="projectNumber" value="440045522731" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -4,9 +4,9 @@ import MainScreen
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import quang.app.mediator.features.Routes
 import quang.app.mediator.features.course.view.CourseScreen
 import quang.app.mediator.features.login.view.LoginScreen
@@ -18,8 +18,7 @@ import quang.app.mediator.features.welcome.topic.view.TopicScreen
 import quang.app.mediator.features.welcome.welcome.view.WelcomeScreen
 
 @Composable
-fun AppNavigation() {
-    val navController = rememberNavController()
+fun AppNavigation(navController: NavHostController) {
 
     NavHost(
         navController = navController,

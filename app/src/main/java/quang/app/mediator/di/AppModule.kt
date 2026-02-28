@@ -1,9 +1,13 @@
 package quang.app.mediator.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import quang.app.mediator.core.notification.NotificationHandler
+import quang.app.mediator.core.notification.NotificationHandlerImpl
 import quang.app.mediator.data.remote.AuthApi
 import quang.app.mediator.di.Constant.BASE_URL
 import retrofit2.Retrofit
@@ -24,6 +28,13 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AuthApi::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideNotificationHandler(@ApplicationContext context: Context): NotificationHandler {
+        return NotificationHandlerImpl(context)
     }
 
 

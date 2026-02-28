@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "440045522731",
+    "project_id": "mediation-e028d",
+    "storage_bucket": "mediation-e028d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440045522731:android:56a91ddb09066f542d3f6e",
+        "android_client_info": {
+          "package_name": "quang.app.mediator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCS3vQdH846dPc-sDwbnbhbEiuSjZuG2-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

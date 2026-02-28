@@ -2,6 +2,7 @@ package quang.app.mediator.features.login.view
 
 import AppButton
 import TextFormFieldComponent
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,6 +41,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.yourapp.ui.theme.AppTextStyle
 import com.yourapp.ui.theme.AppTextStyle.withColor
 import quang.app.mediator.R
@@ -52,6 +56,8 @@ import quang.app.mediator.features.login.viewModels.LoginState
 import quang.app.mediator.features.login.viewModels.LoginUIEvent
 import quang.app.mediator.features.login.viewModels.LoginViewModel
 
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -60,6 +66,11 @@ fun LoginScreen(
     var showLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val state = viewModel.state.collectAsStateWithLifecycle().value
+    val notificationPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
+    } else {
+        null
+    }
 
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
@@ -71,6 +82,12 @@ fun LoginScreen(
 
                 is LoginUIEvent.ShowSuccess -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    if (notificationPermissionState != null && !notificationPermissionState.status.isGranted) {
+                        notificationPermissionState.launchPermissionRequest()
+
+                    }
+
+
                     navController.navigate(Routes.WELCOME)
                 }
 
