@@ -1,5 +1,6 @@
 package quang.app.mediator.core.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -25,7 +26,9 @@ fun CircularPlayButton(
     size: Dp = 56.dp,
     backgroundColor: Color = Color(0xFF1EB980),
     iconTint: Color = Color.White,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    borderColor: Color = Color.Transparent,
+    borderWidth: Dp = 0.dp,
 ) {
     Surface(
         modifier = modifier
@@ -37,6 +40,11 @@ fun CircularPlayButton(
             ),
         shape = CircleShape,
         color = backgroundColor,
+        border = if (borderWidth > 0.dp) {
+            BorderStroke(borderWidth, borderColor)
+        } else {
+            null
+        },
         tonalElevation = 4.dp,
         shadowElevation = 4.dp
     ) {

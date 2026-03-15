@@ -121,7 +121,7 @@ fun HomeView(navController: NavController) {
                         .weight(1f)
                         .height(200.dp),
                     topic = homeTopics[1],
-                    boxColor = AppColor.BrightBlack,
+                    boxColor = AppColor.TextColor,
                     boxTextColor = AppColor.WhiteBox,
                     pictureModifier = Modifier
                         .width(100.dp)

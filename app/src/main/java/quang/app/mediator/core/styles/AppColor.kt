@@ -35,9 +35,10 @@ object AppColor {
     val LightGray = Color(0xFFF5F5F9)
     val Gray500 = Color(0xFFE6E7F2)
     val Gray700 = Color(0xFFA0A3B1)
-    val BrightBlack = Color(0xFF3F414E)
     val DarkBlue = Color(0xFF424495)
     val DarkPink = Color(0xFFD9A5B5)
+    val LightPink = Color(0xFFFF84A2)
+    val LightBlue = Color(0xFF7FD2F2)
     val DarkYellow = Color(0xFFFFC97E)
     val DarkPurple = Color(0xFF333242)
     val PrimaryGradient = Brush.linearGradient(

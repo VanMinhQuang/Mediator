@@ -1,12 +1,17 @@
 package quang.app.mediator.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class Music(
     val id: Int,
     val title: String,
     val subTitle: String,
     val length: Int, // length in seconds
     val imageUrl: String
-){
+) : Parcelable {
     companion object {
         fun dummyList(): List<Music> {
             return listOf(

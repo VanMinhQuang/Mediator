@@ -25,10 +25,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -63,7 +59,6 @@ fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    var showLoading by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val notificationPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -75,8 +70,7 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
             when (event) {
-                is LoginUIEvent.ShowLoading -> showLoading = true
-                is LoginUIEvent.HideLoading -> showLoading = false
+
                 is LoginUIEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
 
@@ -110,7 +104,7 @@ fun LoginScreen(
             navController = navController
         )
 
-        if (showLoading) {
+        if (state.isLoading) {
             LoadingDialog()
         }
 

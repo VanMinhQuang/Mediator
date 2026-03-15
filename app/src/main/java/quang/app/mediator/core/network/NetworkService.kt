@@ -8,7 +8,7 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class NetworkService @Inject constructor ( private val defaultTimeout: Long = 10_000L) {
+class NetworkService @Inject constructor ( private val defaultTimeout: Long = 20_000L) {
 
 
 

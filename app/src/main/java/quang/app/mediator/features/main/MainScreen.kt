@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -21,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,12 +46,10 @@ fun MainScreen(navController: NavController) {
     val scope = rememberCoroutineScope()
     val currentPage by remember { derivedStateOf { pagerState.currentPage } }
 
-
     Scaffold(
         bottomBar = {
             NavigationBar {
                 pages.forEachIndexed { index, title ->
-                    val isSelected = currentPage == index
                     val iconRes = when (index) {
                         0 -> R.drawable.home
                         1 -> R.drawable.moon
@@ -63,7 +59,7 @@ fun MainScreen(navController: NavController) {
                         else -> R.drawable.home
                     }
                     NavigationBarItem(
-
+                        selected = currentPage == index,
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = AppColor.PrimaryBlue,
                             unselectedIconColor = AppColor.PrimaryBlue,
@@ -72,27 +68,26 @@ fun MainScreen(navController: NavController) {
                             indicatorColor = AppColor.PrimaryBlue
                         ),
 
-
                         icon = {
                             Image(
                                 painter = painterResource(id = iconRes),
                                 contentDescription = title,
                                 modifier = Modifier.size(26.dp),
-                                colorFilter =  ColorFilter.tint(
-                                    if (isSelected) AppColor.Gray500
+                                colorFilter = ColorFilter.tint(
+                                    if (currentPage == index) AppColor.Gray500
                                     else AppColor.Gray700
                                 )
                             )
                         },
-                        label = { Text(title, color = if (isSelected) AppColor.Primary else AppColor.Gray700) },
-                        selected = pagerState.currentPage == index,
-                        onClick = {
-                            scope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
+                        label = {
+                            Text(
+                                text = title,
+                                color = if (currentPage == index) AppColor.Primary else AppColor.Gray700
+                            )
                         },
-                        modifier = Modifier
-                            .clip(CircleShape)
+                        onClick = {
+                            scope.launch { pagerState.scrollToPage(index) }
+                        }
                     )
                 }
             }

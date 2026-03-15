@@ -12,7 +12,6 @@ sealed class LoginUIEvent{
 
     data class ShowError(val message: String): LoginUIEvent()
     data class ShowSuccess(val message: String): LoginUIEvent()
-    object ShowLoading : LoginUIEvent()
-    object HideLoading : LoginUIEvent()
+
 
 }
