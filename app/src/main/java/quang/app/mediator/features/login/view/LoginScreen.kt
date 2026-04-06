@@ -45,8 +45,9 @@ import com.yourapp.ui.theme.AppTextStyle.withColor
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.component.LoadingDialog
+import quang.app.mediator.core.component.dialog.DialogManager
+import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.features.Routes
 import quang.app.mediator.features.login.viewModels.LoginEvent
 import quang.app.mediator.features.login.viewModels.LoginState
 import quang.app.mediator.features.login.viewModels.LoginUIEvent
@@ -72,7 +73,9 @@ fun LoginScreen(
             when (event) {
 
                 is LoginUIEvent.ShowError ->
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    DialogManager.showError(
+                        message = event.message
+                    )
 
                 is LoginUIEvent.ShowSuccess -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()

@@ -25,11 +25,13 @@ fun AppButton(
     borderColor: Color = Color.Transparent,
     borderWidth: Float = 1f,
     textStyle: TextStyle = AppTextStyle.bold14,
-    content: (@Composable () -> Unit)? = null
+    content: (@Composable () -> Unit)? = null,
+    isEnable: Boolean = true
 ) {
     val shape = RoundedCornerShape(50)
 
     Button(
+        enabled = isEnable,
         onClick = onTap,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.Transparent, // Make container transparent
@@ -38,6 +40,9 @@ fun AppButton(
         shape = shape,
         modifier = modifier
             .then(
+                if(!isEnable) {
+                    Modifier.background(color = AppColor.Gray, shape = shape)
+                } else
                 if (gradient != null) {
                     Modifier.background(brush = gradient, shape = shape)
                 } else {

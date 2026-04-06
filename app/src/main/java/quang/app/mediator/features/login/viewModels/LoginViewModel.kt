@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import quang.app.mediator.core.component.app.AppState
 import quang.app.mediator.core.component.app.AppStateHolder
+import quang.app.mediator.core.network.results.APIResult
 import quang.app.mediator.domain.repository.AuthRepository
 import javax.inject.Inject
 
@@ -69,23 +70,24 @@ class LoginViewModel @Inject constructor(
             }
 
 
-            //val result = repository.authenticate(currentState.email, currentState.password)
+            val result = repository.authenticate(currentState.email, currentState.password)
 
+            when(result){
+                is APIResult.Success -> {
+                    val user = repository.getCurrentUser()
+                    _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome ${user.username}"))
+                }
+                is APIResult.Error -> {
+                    _event.send(LoginUIEvent.ShowError("Login failed: ${result.error.message ?: "Unknown error"}"))
+                }
+
+            }
             _state.update {
                 it.copy(isLoading = false)
             }
 
-            _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome "))
 
-//            when(result){
-//                is APIResult.Success ->
-//                    _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome ${result.data.lastName}"))
-//                is APIResult.Error -> {
-//                    val test = result.error.cause?.message
-//                    _event.send(LoginUIEvent.ShowError("Login failed: ${result.error.message ?: "Unknown error"}"))
-//                }
-//
-//            }
+
 
 
 

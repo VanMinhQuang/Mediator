@@ -33,7 +33,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.features.Routes
+import quang.app.mediator.core.navigation.Routes
 
 @Composable
 fun OnboardingScreen(navController: NavController) {
@@ -179,6 +179,3 @@ fun OnboardingScreenPreview() {
     val navController = rememberNavController()
     OnboardingScreen(navController)
 }
-
-
-

@@ -1,4 +1,4 @@
-package quang.app.mediator.features
+package quang.app.mediator.core.navigation
 
 object Routes {
     const val ONBOARDING = "onboarding"

@@ -23,10 +23,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +41,9 @@ import com.yourapp.ui.theme.AppTextStyle.withColor
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.component.LoadingDialog
+import quang.app.mediator.core.component.dialog.DialogManager
+import quang.app.mediator.core.navigation.Routes
+import quang.app.mediator.core.navigation.navigateReplace
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.features.register.viewModels.RegisterEvent
 import quang.app.mediator.features.register.viewModels.RegisterUiEvent
@@ -57,19 +56,20 @@ fun RegisterScreen(navController: NavController,
                    viewModel: RegisterViewModel = hiltViewModel()
 ) {
 
-    var showLoading by  remember { mutableStateOf(false) }
     val context = LocalContext.current
-
+    val state = viewModel.state.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit)  {
         viewModel.event.collect { event ->
             when(event) {
-                is RegisterUiEvent.ShowLoading -> showLoading = true
-                is RegisterUiEvent.HideLoading -> showLoading = false
+
                 is RegisterUiEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 is RegisterUiEvent.ShowSuccess ->
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    DialogManager.showSuccess( "Account have been created successfully!",
+                        onConfirm = {
+                            navController.navigateReplace(Routes.LOGIN,Routes.REGISTER)
+                        })
                 is RegisterUiEvent.NavigateToHome -> navController.popBackStack()
 
             }
@@ -83,7 +83,7 @@ fun RegisterScreen(navController: NavController,
 
         RegisterView(viewModel,navController)
 
-        if(showLoading){
+        if(state.isLoading){
             LoadingDialog()
         }
 
@@ -128,35 +128,6 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Facebook button
-            AppButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(55.dp),
-                onTap = {
-
-                },
-                textStyle = AppTextStyle.semiBold14,
-                color = AppColor.PrimaryBlue,
-                content = {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.facebook_icon),
-                            contentDescription = "SVG Image",
-                            modifier = Modifier
-                                .size(18.dp)
-                                .align(Alignment.CenterStart)
-                        )
-                        Text("CONTINUE WITH FACEBOOK", style = AppTextStyle.semiBold14.copy(color = Color.White))
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
             // Google button
             AppButton(
                 modifier = Modifier
@@ -189,25 +160,8 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("OR LOG IN WITH EMAIL", style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint))
+            Text("OR SIGN UP WITH EMAIL", style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextFormFieldComponent(
-                text = state.userName,
-                placeholder = "User Name",
-                onTextChange = { viewModel.onEvent(RegisterEvent.NameChanged(it)) },
-                trailing = {
-                    if (state.userName.isNotEmpty()) {
-                        Icon(
-                            imageVector = Icons.Filled.Check,
-                            contentDescription = "Valid",
-                            tint = Color.Green,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                    }
-                }
-            )
             Spacer(modifier = Modifier.height(16.dp))
 
             // Email input field
@@ -265,14 +219,15 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
             Spacer(modifier = Modifier.height(16.dp))
 
             AppButton(
+                isEnable = viewModel.isEnabled,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),
                 onTap = {
-
+                    viewModel.onRegister()
                 },
                 textStyle = AppTextStyle.semiBold14,
-                text = "GET STARTED",
+                text = "SIGN UP",
                 gradient = AppColor.PrimaryGradient
             )
         }
@@ -284,4 +239,3 @@ fun RegisterScreenPreview() {
     val navController = rememberNavController()
     RegisterScreen(navController)
 }
-

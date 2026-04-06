@@ -1,6 +1,5 @@
 package quang.app.mediator.features.course.view
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -34,17 +33,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import coil3.compose.AsyncImage
 import com.yourapp.ui.theme.AppTextStyle
 import kotlinx.coroutines.launch
 import quang.app.mediator.R
+import quang.app.mediator.core.component.AppImage
 import quang.app.mediator.core.component.CircularBackButton
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.domain.model.MeditationModel
@@ -75,20 +73,14 @@ fun CourseScreen(navController: NavController){
 
             ) {
                 Box{
-                    AsyncImage(
-                        model = topic.imageUrl ?: "",
-                        contentDescription = "Test",
-                        error = painterResource(id = R.drawable.meditate),
-                        contentScale = ContentScale.FillBounds,
-                        placeholder = painterResource(id = R.drawable.meditate),
-                        onError = {
-                                error ->
-                            Log.e("CoilImage", "Failed to load: ${error.result.throwable}")
-                        },
+                    AppImage(
+                        image = topic.imageUrl ?: "",
+                        placeholder =  R.drawable.sunny,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(290.dp)
-                            .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+                            .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)),
+
                     )
                     Row(
                         modifier = Modifier

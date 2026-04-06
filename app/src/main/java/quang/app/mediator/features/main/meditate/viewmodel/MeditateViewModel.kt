@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import quang.app.mediator.core.constants.AppConstants.menuMediates
 import quang.app.mediator.domain.model.MeditationModel
 import quang.app.mediator.features.main.meditate.view.MeditateMenuItem
-import quang.app.mediator.features.main.meditate.view.menuMediates
 
 class MeditateViewModel: ViewModel() {
     private val _state = MutableStateFlow(MeditateState())

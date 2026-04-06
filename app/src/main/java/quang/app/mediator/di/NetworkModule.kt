@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import quang.app.mediator.core.network.NetworkService
+import quang.app.mediator.core.supabase.SupabaseService
 import javax.inject.Singleton
 
 
@@ -18,5 +19,17 @@ object NetworkModule {
         // You can specify the timeout here explicitly
         return NetworkService(defaultTimeout = 10_000L)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideSupabaseService(): SupabaseService {
+        return SupabaseService()
+    }
+
+
+
+
+
 
 }

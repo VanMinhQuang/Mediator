@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import quang.app.mediator.features.Routes
+import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.features.course.view.CourseScreen
 import quang.app.mediator.features.login.view.LoginScreen
 import quang.app.mediator.features.onboarding.view.OnboardingScreen

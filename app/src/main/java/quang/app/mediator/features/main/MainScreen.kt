@@ -1,13 +1,18 @@
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -20,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +38,7 @@ import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.features.main.home.view.HomeView
 import quang.app.mediator.features.main.meditate.view.MeditateView
 import quang.app.mediator.features.main.music.view.MusicView
+import quang.app.mediator.features.main.sleep.view.SleepMainView
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -45,10 +52,20 @@ fun MainScreen(navController: NavController) {
     )
     val scope = rememberCoroutineScope()
     val currentPage by remember { derivedStateOf { pagerState.currentPage } }
+    val isSleepMode = currentPage == 1
+    val animatedContainerColor by animateColorAsState(
+        targetValue = if (isSleepMode) AppColor.DarkBackground else Color.White,
+        animationSpec = tween(durationMillis = 500), label = "navBackground"
+    )
 
     Scaffold(
+        contentWindowInsets = WindowInsets.systemBars
+            .only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom),
         bottomBar = {
-            NavigationBar {
+            NavigationBar(
+                containerColor = animatedContainerColor,
+                tonalElevation = 8.dp
+            )  {
                 pages.forEachIndexed { index, title ->
                     val iconRes = when (index) {
                         0 -> R.drawable.home
@@ -106,7 +123,7 @@ fun MainScreen(navController: NavController) {
             ) {
                 when (page) {
                     0 -> HomeView(navController)
-                    1 -> Text("🔍 Sleep", style = MaterialTheme.typography.headlineMedium)
+                    1 -> SleepMainView()
                     2 -> MeditateView()
                     3 -> MusicView(navController = navController)
                 }

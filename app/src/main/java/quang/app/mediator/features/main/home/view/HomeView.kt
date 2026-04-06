@@ -41,7 +41,7 @@ import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.domain.model.Topic
 import quang.app.mediator.domain.model.homeTopics
 import quang.app.mediator.domain.model.recommendedTopics
-import quang.app.mediator.features.Routes
+import quang.app.mediator.core.navigation.Routes
 
 
 @Composable

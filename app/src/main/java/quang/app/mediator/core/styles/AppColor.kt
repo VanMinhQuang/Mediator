@@ -35,6 +35,8 @@ object AppColor {
     val LightGray = Color(0xFFF5F5F9)
     val Gray500 = Color(0xFFE6E7F2)
     val Gray700 = Color(0xFFA0A3B1)
+    val Gray900 = Color(0XFF98A1BD)
+    val Gray100 = Color(0XFF586894)
     val DarkBlue = Color(0xFF424495)
     val DarkPink = Color(0xFFD9A5B5)
     val LightPink = Color(0xFFFF84A2)
@@ -56,4 +58,8 @@ object AppColor {
     )
 
     val LightPeach = Color(0xFFF1DDCF)
+
+
+    //Dark Mode Colors
+    val DarkBackground = Color(0xFF03174C)
 }

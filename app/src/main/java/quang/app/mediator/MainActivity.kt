@@ -15,7 +15,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
-import quang.app.mediator.features.Routes
+import quang.app.mediator.core.component.dialog.GlobalDialog
+import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.ui.theme.MediatorTheme
 
 @AndroidEntryPoint
@@ -47,6 +48,7 @@ class MainActivity : ComponentActivity() {
 
             MediatorTheme {
                 AppNavigation(navController)
+                GlobalDialog()
             }
 
             // Observe the pendingNavigation state

@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.features.Routes
+import quang.app.mediator.core.navigation.Routes
 
 @Composable
 fun WelcomeScreen(navController: NavController) {

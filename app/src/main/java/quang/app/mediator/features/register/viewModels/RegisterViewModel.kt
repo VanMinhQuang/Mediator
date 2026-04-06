@@ -1,21 +1,22 @@
 package quang.app.mediator.features.register.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import quang.app.mediator.core.component.app.AppStateHolder
+import quang.app.mediator.core.network.results.APIResult
+import quang.app.mediator.domain.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val appStateHolder: AppStateHolder
+    private val appStateHolder: AppStateHolder,
+    private val repository: AuthRepository
 ): ViewModel(){
     private val _state = MutableStateFlow(RegisterState())
 
@@ -26,11 +27,17 @@ class RegisterViewModel @Inject constructor(
     private val _event = Channel<RegisterUiEvent>()
     val event = _event.receiveAsFlow()
 
+    val isEnabled: Boolean
+        get() {
+            val currentState = state.value
+            return currentState.email.isNotBlank() &&
+                    currentState.password.isNotBlank() &&
+                    currentState.isReadPolicy
+        }
+
     fun onEvent(event: RegisterEvent){
         when(event){
-            is RegisterEvent.NameChanged -> {
-                _state.value = state.value.copy(userName = event.name)
-            }
+
             is RegisterEvent.EmailChanged -> {
                 _state.value = state.value.copy(email = event.email)
             }
@@ -56,21 +63,33 @@ class RegisterViewModel @Inject constructor(
             val currentState = state.value
 
             // Validate
-            if (currentState.userName.isBlank() || currentState.email.isBlank() || currentState.password.isBlank()) {
+            if ( currentState.email.isBlank() || currentState.password.isBlank()) {
                 _event.send(RegisterUiEvent.ShowError("Please fill all fields."))
                 return@launch
             }
 
-            _event.send(RegisterUiEvent.ShowLoading)
-
-            Log.d("AppState", "Current AppState: ${appState.value}")
-            delay(2000) // Simulate network request
+            _state.value = currentState.copy(isLoading = true)
 
 
-            _event.send(RegisterUiEvent.HideLoading)
+            val result =  repository.signUp(currentState.email, currentState.password)
 
-            _event.send(RegisterUiEvent.ShowSuccess("Registration successful!"))
+
+            _state.value = currentState.copy(isLoading = false)
+
+            when(result){
+                is APIResult.Success -> {
+                    _event.send(RegisterUiEvent.ShowSuccess("Registration successful!"))
+
+                }
+                is APIResult.Error -> {
+                    _event.send(RegisterUiEvent.ShowError(result.error.message ?: "Registration failed: Unknown error"))
+
+                }
+            }
         }
     }
+
+
+
 
 }
