@@ -1,6 +1,7 @@
 package quang.app.mediator.data.remote.auth
 
 import io.github.jan.supabase.auth.user.UserInfo
+import io.github.jan.supabase.auth.user.UserSession
 import quang.app.mediator.core.network.results.APIResult
 
 interface AuthRemote {
@@ -9,4 +10,5 @@ interface AuthRemote {
     suspend fun loginWithGoogle(): APIResult<String>
     suspend fun signOut(): APIResult<Unit>
     fun getCurrentUser(): UserInfo?
+    suspend fun getCurrentSession(): APIResult<UserSession?>
 }

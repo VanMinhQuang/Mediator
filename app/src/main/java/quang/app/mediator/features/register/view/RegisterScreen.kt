@@ -51,25 +51,28 @@ import quang.app.mediator.features.register.viewModels.RegisterViewModel
 
 
 @Composable
-fun RegisterScreen(navController: NavController,
-
-                   viewModel: RegisterViewModel = hiltViewModel()
+fun RegisterScreen(
+    navController: NavController,
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
-    LaunchedEffect(Unit)  {
+    LaunchedEffect(Unit) {
         viewModel.event.collect { event ->
-            when(event) {
+            when (event) {
 
                 is RegisterUiEvent.ShowError ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+
                 is RegisterUiEvent.ShowSuccess ->
-                    DialogManager.showSuccess( "Account have been created successfully!",
+                    DialogManager.showSuccess(
+                        "Account have been created successfully!",
                         onConfirm = {
-                            navController.navigateReplace(Routes.LOGIN,Routes.REGISTER)
+                            navController.navigateReplace(Routes.LOGIN, Routes.REGISTER)
                         })
+
                 is RegisterUiEvent.NavigateToHome -> navController.popBackStack()
 
             }
@@ -78,12 +81,14 @@ fun RegisterScreen(navController: NavController,
 
 
     Box(
-        modifier = Modifier.fillMaxSize().background(color = AppColor.White)
-    ){
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = AppColor.White)
+    ) {
 
-        RegisterView(viewModel,navController)
+        RegisterView(viewModel, navController)
 
-        if(state.isLoading){
+        if (state.isLoading) {
             LoadingDialog()
         }
 
@@ -92,7 +97,7 @@ fun RegisterScreen(navController: NavController,
 }
 
 @Composable
-fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
+fun RegisterView(viewModel: RegisterViewModel, navController: NavController) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -102,7 +107,7 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             contentScale = ContentScale.Crop,
 
-        )
+            )
 
         Column(
             modifier = Modifier
@@ -115,8 +120,11 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.Start)
-            ){
-                CircularBackButton(onBack = { navController.popBackStack() }, borderColor = AppColor.Gray)
+            ) {
+                CircularBackButton(
+                    onBack = { navController.popBackStack() },
+                    borderColor = AppColor.Gray
+                )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
@@ -149,7 +157,10 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
                                 .size(18.dp)
                                 .align(Alignment.CenterStart)
                         )
-                        Text("CONTINUE WITH GOOGLE", style = AppTextStyle.regular14.copy(color = AppColor.TextColor))
+                        Text(
+                            "CONTINUE WITH GOOGLE",
+                            style = AppTextStyle.regular14.copy(color = AppColor.TextColor)
+                        )
                     }
                 },
                 color = Color.White,
@@ -160,7 +171,10 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text("OR SIGN UP WITH EMAIL", style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint))
+            Text(
+                "OR SIGN UP WITH EMAIL",
+                style = withColor(AppTextStyle.semiBold14, color = AppColor.TextHint)
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -206,7 +220,7 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
 
                 Checkbox(
                     checked = state.isReadPolicy,
-                    onCheckedChange ={
+                    onCheckedChange = {
                         viewModel.onEvent(RegisterEvent.TogglePrivacyPolicy)
                     },
                     colors = CheckboxDefaults.colors(
@@ -233,6 +247,7 @@ fun RegisterView(viewModel: RegisterViewModel, navController: NavController){
         }
     }
 }
+
 @Preview
 @Composable
 fun RegisterScreenPreview() {

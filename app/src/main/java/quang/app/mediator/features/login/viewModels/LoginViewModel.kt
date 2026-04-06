@@ -75,6 +75,7 @@ class LoginViewModel @Inject constructor(
             when(result){
                 is APIResult.Success -> {
                     val user = repository.getCurrentUser()
+                    appStateHolder.setAuthenticated(user)
                     _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome ${user.username}"))
                 }
                 is APIResult.Error -> {

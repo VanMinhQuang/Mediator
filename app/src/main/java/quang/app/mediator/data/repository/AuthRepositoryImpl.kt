@@ -1,6 +1,7 @@
 package quang.app.mediator.data.repository
 
 
+import io.github.jan.supabase.auth.user.UserSession
 import quang.app.mediator.core.network.results.APIResult
 import quang.app.mediator.core.network.results.NetworkError
 import quang.app.mediator.data.remote.auth.AuthRemote
@@ -41,6 +42,16 @@ class AuthRepositoryImpl @Inject constructor(
             return APIResult.Success(Unit)
         } catch (e: NetworkError) {
             return APIResult.Error(
+                e
+            )
+        }
+    }
+
+    override suspend  fun getCurrentSession(): APIResult<UserSession?> {
+        return try{
+            remote.getCurrentSession()
+        } catch (e: NetworkError) {
+             APIResult.Error(
                 e
             )
         }

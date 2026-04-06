@@ -14,10 +14,11 @@ class AuthRemoteDataSource  @Inject constructor(
         email: String,
         password: String
     ): APIResult<Unit>  = safeCall {
-        provider.auth.signInWith(Email){
+       val result = provider.auth.signInWith(Email){
             this.email = email
             this.password = password
         }
+
     }
 
 
@@ -38,9 +39,15 @@ class AuthRemoteDataSource  @Inject constructor(
 
     override suspend fun signOut(): APIResult<Unit> = safeCall {
         provider.auth.signOut()
+        provider.auth.clearSession()
     }
 
     override fun getCurrentUser() = provider.auth.currentUserOrNull()
+    override suspend fun getCurrentSession() = safeCall {
+        provider.auth.awaitInitialization()
+
+        provider.auth.currentSessionOrNull()
+    }
 
 
 }

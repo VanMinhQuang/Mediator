@@ -8,21 +8,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import quang.app.mediator.core.component.app.AppStateHolder
 import quang.app.mediator.core.network.results.APIResult
 import quang.app.mediator.domain.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val appStateHolder: AppStateHolder,
     private val repository: AuthRepository
 ): ViewModel(){
     private val _state = MutableStateFlow(RegisterState())
 
     val state = _state.asStateFlow()
 
-    val appState = appStateHolder.state;
 
     private val _event = Channel<RegisterUiEvent>()
     val event = _event.receiveAsFlow()
