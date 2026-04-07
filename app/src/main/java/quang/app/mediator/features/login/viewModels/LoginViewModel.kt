@@ -16,12 +16,14 @@ import quang.app.mediator.core.component.app.AppState
 import quang.app.mediator.core.component.app.AppStateHolder
 import quang.app.mediator.core.network.results.APIResult
 import quang.app.mediator.domain.repository.AuthRepository
+import quang.app.mediator.domain.repository.UserRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val repository: AuthRepository,
+    private val configRepo: UserRepository,
     private val appStateHolder: AppStateHolder
 ) : ViewModel() {
 
@@ -75,7 +77,11 @@ class LoginViewModel @Inject constructor(
             when(result){
                 is APIResult.Success -> {
                     val user = repository.getCurrentUser()
+                    val config = configRepo.getUserConfiguration(user.id ?: "")
                     appStateHolder.setAuthenticated(user)
+                    if(config is APIResult.Success){
+                        appStateHolder.updateUserConfiguration(config.data)
+                    }
                     _event.send(LoginUIEvent.ShowSuccess("Login successful! Welcome ${user.username}"))
                 }
                 is APIResult.Error -> {

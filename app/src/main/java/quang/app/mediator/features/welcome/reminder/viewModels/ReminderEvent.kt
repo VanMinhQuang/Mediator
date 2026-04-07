@@ -6,3 +6,10 @@ sealed class ReminderEvent {
     data class TimeSelected(val hour: Int, val minute: Int) : ReminderEvent()
     data class DayToggled(val day: DayItem) : ReminderEvent()
 }
+
+sealed class ReminderUIEvent {
+
+    object NavigateToHome : ReminderUIEvent()
+
+
+}

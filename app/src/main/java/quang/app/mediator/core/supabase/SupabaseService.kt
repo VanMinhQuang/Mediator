@@ -24,6 +24,10 @@ class SupabaseService @Inject constructor() {
     val auth: Auth get() = client.auth
     val postgrest: Postgrest get() = client.postgrest
 
+
+
+
+
     /** ----------------------- PostgREST Operations ----------------------- */
 //    suspend inline fun <reified T> fetch(
 //        table: String,

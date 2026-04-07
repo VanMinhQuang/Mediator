@@ -4,7 +4,6 @@ import AppButton
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +18,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,112 +32,134 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
+import quang.app.mediator.core.component.AppContainer
 import quang.app.mediator.core.component.TimePicker
+import quang.app.mediator.core.navigation.Routes
+import quang.app.mediator.core.navigation.navigateReplace
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.domain.model.DayItem
-import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.features.welcome.reminder.viewModels.ReminderEvent
+import quang.app.mediator.features.welcome.reminder.viewModels.ReminderUIEvent
 import quang.app.mediator.features.welcome.reminder.viewModels.ReminderViewModel
 
 @Composable
 fun ReminderScreen(navController: NavController, viewModel: ReminderViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = AppColor.White)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .padding(vertical = 20.dp)
-        ) {
-            Spacer(modifier = Modifier.height(40.dp))
-            Text(
-                "What time would you \nlike to meditate?",
-                style = AppTextStyle.semiBold24.copy(lineHeight = 35.sp),
-                color = AppColor.TextColor,
-                textAlign = TextAlign.Left
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                "Any time you can choose but We recommend first thing in the morning.",
-                style = AppTextStyle.light18,
-                color = AppColor.TextHint,
-                textAlign = TextAlign.Left,
-
-                )
-
-            TimePicker(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 35.dp),
-                rowCount = 3,
-                onTimeSelected = { hour, minute ->
-                    viewModel.onEvent(
-                        ReminderEvent.TimeSelected(
-                            hour,
-                            minute
-                        )
-                    )
+    LaunchedEffect(Unit) {
+        viewModel.event.collect{
+            when(it){
+                is ReminderUIEvent.NavigateToHome -> {
+                    navController.navigateReplace(Routes.HOME,Routes.REMINDER)
                 }
-            )
-
-            Text(
-                "Which day would you \nlike to meditate?",
-                style = AppTextStyle.semiBold24.copy(lineHeight = 35.sp),
-                color = AppColor.TextColor,
-                textAlign = TextAlign.Left
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                "Everyday is best, but we recommend picking at least five.",
-                style = AppTextStyle.light18,
-                color = AppColor.TextHint,
-                textAlign = TextAlign.Left,
-
-                )
-
-
-            DaySelectorList(days = state.days, onDayClick = { dayItem ->
-                viewModel.onEvent(ReminderEvent.DayToggled(dayItem))
-            })
-
-            AppButton(
-                text = "SAVE",
-                gradient = AppColor.PrimaryGradient,
-                textStyle = AppTextStyle.semiBold14,
-                textColor = AppColor.White,
-                modifier = Modifier
-                    .height(60.dp)
-                    .fillMaxSize(),
-                onTap = {
-                    navController.navigate(Routes.HOME)
-                }
-            )
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            AppButton(
-                text = "NO THANKS",
-                color = Color.Transparent,
-                textStyle = AppTextStyle.semiBold14,
-                textColor = AppColor.TextColor,
-                modifier = Modifier
-                    .height(60.dp)
-                    .fillMaxSize(),
-                onTap = {
-                    navController.navigate(Routes.HOME)
-                }
-            )
+            }
 
         }
+    }
+    AppContainer(
+        isLoading = state.isLoading,
+        appColor = AppColor.White
+    ) {
+        ReminderView(
+
+            viewModel = viewModel,)
+    }
+}
+
+@Composable
+fun ReminderView( viewModel: ReminderViewModel) {
+    val state = viewModel.state.collectAsStateWithLifecycle().value
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .padding(vertical = 20.dp)
+    ) {
+        Spacer(modifier = Modifier.height(40.dp))
+        Text(
+            "What time would you \nlike to meditate?",
+            style = AppTextStyle.semiBold24.copy(lineHeight = 35.sp),
+            color = AppColor.TextColor,
+            textAlign = TextAlign.Left
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            "Any time you can choose but We recommend first thing in the morning.",
+            style = AppTextStyle.light18,
+            color = AppColor.TextHint,
+            textAlign = TextAlign.Left,
+
+            )
+
+        TimePicker(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 35.dp),
+            rowCount = 3,
+            onTimeSelected = { hour, minute ->
+                viewModel.onEvent(
+                    ReminderEvent.TimeSelected(
+                        hour,
+                        minute
+                    )
+                )
+            }
+        )
+
+        Text(
+            "Which day would you \nlike to meditate?",
+            style = AppTextStyle.semiBold24.copy(lineHeight = 35.sp),
+            color = AppColor.TextColor,
+            textAlign = TextAlign.Left
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            "Everyday is best, but we recommend picking at least five.",
+            style = AppTextStyle.light18,
+            color = AppColor.TextHint,
+            textAlign = TextAlign.Left,
+
+            )
+
+
+        DaySelectorList(days = state.days, onDayClick = { dayItem ->
+            viewModel.onEvent(ReminderEvent.DayToggled(dayItem))
+        })
+
+        AppButton(
+            text = "SAVE",
+            gradient = AppColor.PrimaryGradient,
+            textStyle = AppTextStyle.semiBold14,
+            textColor = AppColor.White,
+            modifier = Modifier
+                .height(60.dp)
+                .fillMaxSize(),
+            onTap = {
+                viewModel.saveSettings(isSkip = false)
+                //navController.navigate(Routes.HOME)
+            }
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        AppButton(
+            text = "NO THANKS",
+            color = Color.Transparent,
+            textStyle = AppTextStyle.semiBold14,
+            textColor = AppColor.TextColor,
+            modifier = Modifier
+                .height(60.dp)
+                .fillMaxSize(),
+            onTap = {
+                viewModel.saveSettings(isSkip = true)
+                //navController.navigate(Routes.HOME)
+            }
+        )
+
     }
 }
 

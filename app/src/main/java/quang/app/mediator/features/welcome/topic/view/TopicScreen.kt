@@ -43,9 +43,9 @@ import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
 import quang.app.mediator.core.component.CircularBackButton
+import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.core.styles.AppColor
 import quang.app.mediator.domain.model.Topic
-import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.features.welcome.topic.viewModel.TopicEvent
 import quang.app.mediator.features.welcome.topic.viewModel.TopicViewModel
 
@@ -86,9 +86,11 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                if (state.selectedTopicId != null)
+                if (state.selectedTopicIds != null)
                     CircularBackButton(
-                        onBack = { navController.navigate(Routes.REMINDER) },
+                        onBack = {
+                            viewModel.saveSelectedTopic()
+                            navController.navigate(Routes.REMINDER) },
                         backgroundColor = AppColor.White,
                         iconColor = AppColor.TextColor,
                         borderColor = AppColor.TextHint,

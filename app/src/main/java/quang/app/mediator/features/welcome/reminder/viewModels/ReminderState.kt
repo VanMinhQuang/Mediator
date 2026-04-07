@@ -5,5 +5,6 @@ import quang.app.mediator.domain.model.DayItem
 data class ReminderState(
     val selectedHour: Int = 6,
     val selectedMinute: Int = 0,
-    val days: List<DayItem> = emptyList()
+    val days: List<DayItem> = emptyList(),
+    val isLoading: Boolean = false
 )
