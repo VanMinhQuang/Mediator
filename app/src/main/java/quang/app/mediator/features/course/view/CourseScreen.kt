@@ -74,7 +74,7 @@ fun CourseScreen(navController: NavController){
             ) {
                 Box{
                     AppImage(
-                        image = topic.imageUrl ?: "",
+                        url = topic.imageUrl ?: "",
                         placeholder =  R.drawable.sunny,
                         modifier = Modifier
                             .fillMaxWidth()

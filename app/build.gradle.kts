@@ -80,6 +80,7 @@ android {
         }
 
 dependencies {
+    implementation(libs.coil3.coil.svg)
     implementation(libs.coil.kt.coil.gif)
     implementation(libs.android.gif.drawable)
     implementation(libs.accompanist.navigation.animation)

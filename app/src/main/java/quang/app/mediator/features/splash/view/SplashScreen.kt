@@ -52,6 +52,9 @@ fun SplashScreen(
             UserStatus.AUTHENTICATED -> {
                 navController.navigateReplace(Routes.WELCOME, Routes.SPLASH)
             }
+            UserStatus.AUTHENTICATED_WITH_SETTING -> {
+                navController.navigateReplace(Routes.HOME, Routes.SPLASH)
+            }
 
         }
     }

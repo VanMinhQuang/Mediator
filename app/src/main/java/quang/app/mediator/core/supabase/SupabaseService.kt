@@ -16,6 +16,7 @@ class SupabaseService @Inject constructor() {
         supabaseKey = BuildConfig.SUPABASE_KEY,
         supabaseUrl = BuildConfig.SUPABASE_URL,
 
+
     ){
         install(Auth)
         install(Postgrest)

@@ -21,7 +21,12 @@ class PostgrestRemoteDataSource @Inject constructor(
             val response = supabaseService.postgrest.from(table).select(Columns.raw(select)) {
                 filter.invoke(this)
             }
-            response.decodeAs<T>()
+
+
+            val list = response.decodeAs<List<T>>()
+
+            list.firstOrNull()
+                ?: throw Exception("No data found")
         }
     }
 

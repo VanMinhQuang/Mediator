@@ -6,6 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import quang.app.mediator.data.remote.auth.AuthRemote
 import quang.app.mediator.data.remote.auth.AuthRemoteDataSource
+import quang.app.mediator.data.remote.query.topic.TopicRemote
+import quang.app.mediator.data.remote.query.topic.TopicRemoteDataSource
 import quang.app.mediator.data.remote.query.user.UserConfigurationRemote
 import quang.app.mediator.data.remote.query.user.UserConfigurationRemoteDataSource
 import javax.inject.Singleton
@@ -24,4 +26,10 @@ abstract class RemoteModule {
     abstract fun bindUserConfigurationRemote(
       user: UserConfigurationRemoteDataSource
     ): UserConfigurationRemote
+
+    @Binds
+    @Singleton
+    abstract fun bindTopicRemote(
+        topic: TopicRemoteDataSource
+    ): TopicRemote
 }

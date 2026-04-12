@@ -11,12 +11,14 @@ import quang.app.mediator.core.component.app.AppStateHolder
 import quang.app.mediator.core.component.app.UserStatus
 import quang.app.mediator.core.network.results.APIResult
 import quang.app.mediator.domain.repository.AuthRepository
+import quang.app.mediator.domain.repository.UserRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     val repository: AuthRepository,
+    val configRepo: UserRepository,
     val appState: AppStateHolder
 ) : ViewModel() {
     private val _state = MutableStateFlow(SplashState())
@@ -35,7 +37,16 @@ class SplashViewModel @Inject constructor(
                         try {
                             val user = repository.getCurrentUser()
                             appState.setAuthenticated(user)
-                            _state.value = _state.value.copy(userStatus = UserStatus.AUTHENTICATED)
+                            val config = configRepo.getUserConfiguration( user.id ?: "")
+
+                            if(config is APIResult.Success){
+                                appState.updateUserConfiguration(config.data)
+                                _state.value = _state.value.copy(userStatus = UserStatus.AUTHENTICATED_WITH_SETTING)
+
+                            }else{
+                                _state.value = _state.value.copy(userStatus =  UserStatus.AUTHENTICATED)
+
+                            }
                         } catch (e: Exception) {
                             _state.value = _state.value.copy(userStatus = UserStatus.UNAUTHENTICATED)
                         }

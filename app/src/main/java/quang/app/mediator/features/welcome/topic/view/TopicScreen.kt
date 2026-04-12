@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,9 +26,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -42,11 +42,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.yourapp.ui.theme.AppTextStyle
 import quang.app.mediator.R
+import quang.app.mediator.core.component.AppImage
 import quang.app.mediator.core.component.CircularBackButton
+import quang.app.mediator.core.component.dialog.DialogManager
 import quang.app.mediator.core.navigation.Routes
 import quang.app.mediator.core.styles.AppColor
-import quang.app.mediator.domain.model.Topic
+import quang.app.mediator.domain.model.MediationTopic
 import quang.app.mediator.features.welcome.topic.viewModel.TopicEvent
+import quang.app.mediator.features.welcome.topic.viewModel.TopicUIEvent
 import quang.app.mediator.features.welcome.topic.viewModel.TopicViewModel
 
 
@@ -54,6 +57,16 @@ import quang.app.mediator.features.welcome.topic.viewModel.TopicViewModel
 fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
 
+
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is TopicUIEvent.ShowError -> {
+                    DialogManager.showError(event.message)
+                }
+            }
+        }
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -112,7 +125,7 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
                 TopicGrid(
                     items = state.topics,
                     onClick = { topic ->
-                        viewModel.onEvent(TopicEvent.TopicSelected(topic.topicId))
+                        viewModel.onEvent(TopicEvent.TopicSelected(topic.id))
                     }
                 )
             }
@@ -126,7 +139,7 @@ fun TopicScreen(navController: NavController, viewModel: TopicViewModel = hiltVi
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopicGrid(items: List<Topic>, onClick: (Topic) -> Unit) {
+fun TopicGrid(items: List<MediationTopic>, onClick: (MediationTopic) -> Unit) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = Modifier
@@ -145,39 +158,35 @@ fun TopicGrid(items: List<Topic>, onClick: (Topic) -> Unit) {
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 elevation = CardDefaults.cardElevation(6.dp),
-                colors = CardDefaults.cardColors(containerColor = topic.color)
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(topic.color)
                 ) {
-                    Column(
+
+
+                    AppImage(
+                        url = topic.imageUrl,
+                        contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = topic.image),
-                            contentDescription = topic.title,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(1f)
-                                .clip(RoundedCornerShape(16.dp))
-                        )
+                    )
 
-                        Text(
-                            text = topic.title,
-                            style = AppTextStyle.semiBold18.copy(
-                                color = topic.textColor,
-                                textAlign = TextAlign.Left
-                            ),
-                            modifier = Modifier.padding(top = 8.dp)
-                        )
-                    }
 
+
+                    // TITLE (BOTTOM LEFT)
+                    Text(
+                        text = topic.title,
+                        style = AppTextStyle.semiBold18.copy(
+                            color = AppColor.White,
+                            textAlign = TextAlign.Start
+                        ),
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(12.dp)
+                    )
+
+                    // CHECK ICON (TOP RIGHT)
                     if (topic.isPicked) {
                         Icon(
                             imageVector = Icons.Default.CheckCircle,
@@ -185,7 +194,7 @@ fun TopicGrid(items: List<Topic>, onClick: (Topic) -> Unit) {
                             tint = AppColor.White,
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
-                                .padding(5.dp)
+                                .padding(8.dp)
                                 .size(28.dp)
                                 .background(
                                     color = AppColor.TextColor.copy(alpha = 0.3f),

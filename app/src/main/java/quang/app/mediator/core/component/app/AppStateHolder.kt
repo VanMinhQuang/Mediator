@@ -13,6 +13,7 @@ import javax.inject.Singleton
 enum class UserStatus {
     LOADING,        // Checking session on app start
     AUTHENTICATED,  // Logged in
+    AUTHENTICATED_WITH_SETTING,
     UNAUTHENTICATED // No session
 }
 

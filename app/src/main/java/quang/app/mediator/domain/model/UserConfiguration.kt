@@ -19,7 +19,7 @@ data class UserConfiguration(
     @SerialName("meditation_days")
     val meditateDays: List<String>? = null,
     @SerialName("user_topics")
-    val userTopics: List<String>? = null,
+    val userTopics: List<Int>? = null,
     @SerialName("finished_welcome")
     val finishWelcome: Boolean = false
 )

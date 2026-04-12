@@ -6,6 +6,7 @@ androidGifDrawable = "1.2.29"
 arrowFxCoroutines = "2.2.1.1"
 coilCompose = "3.3.0"
 coilSvg = "2.7.0"
+coilSvgVersion = "3.4.0"
 compose = "1.0.0-beta08"
 converterGson = "3.0.0"
 datepicker = "2.0.7"
@@ -52,6 +53,7 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCo
 coil-kt-coil-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
+coil3-coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coilSvgVersion" }
 compose = { module = "com.github.bumptech.glide:compose", version.ref = "compose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 datepicker = { module = "com.github.ozcanalasalvar.picker:datepicker", version.ref = "datepicker" }
